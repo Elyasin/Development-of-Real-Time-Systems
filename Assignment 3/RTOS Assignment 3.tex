@@ -1,0 +1,225 @@
+\documentclass{article}
+\begin{document}
+
+\title{
+Development of Real-Time Systems\\
+Assignment 3
+}
+\author{Elyasin Shaladi}
+\maketitle
+
+\tableofcontents
+
+\section{Theory assignment}
+The following part of assignment is a purely theoretical task that requires no additional tools.
+The task is to find the largest possible frame size for the cyclic structured scheduler by
+following requirements 1,2 and 3 for finding the largest frame size.
+
+\subsection{Task set 1 --- T1(15, 1, 14) T2(20, 2, 26) T3(22, 3)}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $p_i$ & $e_i$ & $D_i$ \\
+\hline
+\hline
+Task 1 & 15 & 1 & 14 \\
+\hline
+Task 2 & 20 & 2 & 26 \\
+\hline
+Task 3 & 22 & 3 & 22 \\
+\hline
+\end{tabular}
+
+\subsubsection{Requirement 1}
+$f$ must be greater or equal than the longest execution time, i.e. $f \geq 3$
+
+\subsubsection{Requirement 2}
+$f$ must evenly divide the hyperperiod $H$. The hyperperiod $H$ is the least common multiple of
+all the periods in the task set, which are $15$, $20$ and $22$. This means $H = 660$. \\
+Therefore possible values for $f$ are: $f \in \{1,2,3,4,5,6,10,11,15,22\}$
+
+\subsubsection{Requirement 3}
+The frame size $f$ has to fulfill the following requirement $\forall i: 2*f-gcd(p_i,f) \leq D_i$ \\
+This requirement does not hold for $10 \leq f \leq 22$. \\
+However this requirement holds for $1 \leq f \leq 6$ and thus $f = 6$ is the
+largest possible frame size. \\
+For $f = 6$ all three requirements are met.
+
+
+\subsection{Task set 2 --- T1(4, 1) T2(5, 2, 7) T3(20, 5)}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $p_i$ & $e_i$ & $D_i$ \\
+\hline
+\hline
+Task 1 & 4 & 1 & 4 \\
+\hline
+Task 2 & 5 & 2 & 7 \\
+\hline
+Task 3 & 20 & 5 & 20 \\
+\hline
+\end{tabular}
+
+\subsubsection{Requirement 1}
+$f$ must be greater or equal than the longest execution time, i.e. $f \geq 5$
+
+\subsubsection{Requirement 2}
+$f$ must evenly divide the hyperperiod $H$. The hyperperiod $H$ is the least common multiple of
+all the periods in the task set, which are $4$, $5$ and $20$. This means $H = 20$. \\
+Therefore possible values for $f$ are: $f \in \{1, 2, 4, 5, 10, 20\}$
+
+\subsubsection{Requirement 3}
+The frame size $f$ has to fulfill the following requirement $\forall i: 2*f-gcd(p_i,f) \leq D_i$ \\
+This requirement does not hold for $5 \leq f \leq 20$. \\
+However this requirement holds for $1 \leq f \leq 4$ and thus $f = 4$ is the
+largest possible frame size. \\
+\\
+However, $f = 4$ does not fulfill the requirement $1$.
+Therefore Task 3, which has an execution time of $5$,
+has to be sliced into sub jobs as suggested in the lecture.
+
+
+\subsection{Task set 3 --- T1(5, 0.1) T2(7, 1) T3(12, 6) T4(45, 9)}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $p_i$ & $e_i$ & $D_i$ \\
+\hline
+\hline
+Task 1 & 5 & 0.1 & 5 \\
+\hline
+Task 2 & 7 & 1 & 7 \\
+\hline
+Task 3 & 12 & 6 & 12 \\
+\hline
+Task 4 & 45 & 9 & 45 \\
+\hline
+\end{tabular}
+
+\subsubsection{Requirement 1}
+$f$ must be greater or equal than the longest execution time, i.e. $f \geq 9$
+
+\subsubsection{Requirement 2}
+$f$ must evenly divide the hyperperiod $H$. The hyperperiod $H$ is the least common multiple of
+all the periods in the task set, which are $5$, $7$, $12$ and $45$. This means $H = 1260$. \\
+Therefore possible values for $f$ are: $f \in \{1, 2, 3, 4, 5, 6, 7, 9, 12, 15, 45\}$
+
+\subsubsection{Requirement 3}
+The frame size $f$ has to fulfill the following requirement $\forall i: 2*f-gcd(p_i,f) \leq D_i$ \\
+This requirement does not hold for $4 \leq f \leq 45$. \\
+However this requirement holds for $1 \leq f \leq 3$ and thus $f = 3$ is the
+largest possible frame size. \\
+\\
+However, $f = 3$ does not fulfill the requirement $1$.
+Therefore Task 3, which has an execution time of $6$, and Task 4, which has an execution time of $9$,
+have to be sliced into sub jobs as suggested in the lecture.
+
+\section{Simulation assignment}
+
+The assignment is to use a real-time simulator to verify feasibility of a set of tasks.
+
+\subsection{Simulation 1 --- RM Scheduler}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $p_i$ & $e_i$ & $D_i$ \\
+\hline
+\hline
+Task 1 & 2 & 0.5 & 2 \\
+\hline
+Task 2 & 3 & 1.2 & 3 \\
+\hline
+Task 3 & 6 & 0.5 & 6 \\
+\hline
+\end{tabular}
+
+\subsubsection{What is the utilization factor of the system and what is the value for Urm(3)?}
+The utilization $U$ is $0.741$ according to SimSo (CPU total load). \\
+Although according to the formula learned in the lecture the value is $0.733$,
+but this does not change the feasibility test conclusion. \\
+The value for $U_{rm}(3)$ is $0.780$. \\
+\\
+Since $U \leq U_{rm}(3)$ the system is guaranteed feasible.
+
+\subsubsection{What is the minimum/maximum/average response time of all tasks?}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $min$ & $avg$ & $max$ \\
+\hline
+\hline
+Task 1 & 0.5 & 0.5 & 0.5 \\
+\hline
+Task 2 & 1.7 & 1.7 & 1.7 \\
+\hline
+Task 3 & 2.7 & 2.7 & 2.7 \\
+\hline
+\end{tabular}
+
+\subsubsection{Is any task missing the deadline? Which task? Where?}
+No deadline is missed in this schedule.
+
+\subsubsection{If a deadline is missed, could it be avoided by changing the scheduler?}
+No deadline is missed in this schedule.
+
+
+\subsection{Simulation 2 --- EDF Scheduler}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $p_i$ & $e_i$ & $D_i$ \\
+\hline
+\hline
+Task 1 & 2 & 0.5 & 1.9 \\
+\hline
+Task 2 & 5 & 2 & 5 \\
+\hline
+Task 3 & 1 & 0.1 & 0.5 \\
+\hline
+Task 4 & 10 & 5 & 20 \\
+\hline
+\end{tabular}
+
+\subsubsection{What is the utilization factor of the system and what is the value for Urm(3)?}
+The utilization $U$ is $1$ according to SimSo (CPU total load). \\
+Although according to the formula learned in the lecture the value is $1.25$.
+
+The value for $U_{rm}(4)$ is $0.757$. Although I don’t see the utility of calculating $U_{rm}$, because
+\begin{enumerate}
+\item the scheduler is not an RM scheduler and
+\item the utilization is greater than $1$, so the system is not feasible anyway.
+\end{enumerate}
+
+\subsubsection{What is the minimum/maximum/average response time of all tasks?}
+
+\begin{tabular}{|l||l|l|l|}
+\hline
+Task   & $min$ & $avg$ & $max$ \\
+\hline
+\hline
+Task 1 & 0.6 & 0.6 & 0.6 \\
+\hline
+Task 2 & 2.8 & 3.1 & 3.4 \\
+\hline
+Task 3 & 0.1 & 0.1 & 0.1 \\
+\hline
+Task 4 & 20 & 20 & 20 \\
+\hline
+\end{tabular}
+
+\subsubsection{Is any task missing the deadline? Which task? Where?}
+Task 4 meets the first deadline ($t = 20$),
+but misses all subsequent deadlines ($t = 30, 40 , 50, 60, 70, 80, 90, 100$)
+
+\subsubsection{If a deadline is missed, could it be avoided by changing the scheduler?}
+No, I tried the available schedulers that we know from the class:
+RM (Rate Monotonic, FP Fixed Priority and EDF Earliest Deadline First)
+and none of them was feasible. \\
+This is consistent with the finding that the utilization $U$ is greater than $1$ and thus the system is guaranteed not feasible. \\
+\textsl{I also found (in a research paper) that the EDF scheduling algorithm is optimal.
+I.e. if a real-time task set cannot be scheduled by EDF,
+then this task set cannot be scheduled by any algorithm.}
+
+
+\end{document}
